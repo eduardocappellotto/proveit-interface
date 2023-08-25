@@ -7,6 +7,12 @@
     "paths": {
       "@/*": [
         "src/*"
+      ],
+      "@auth/*": [
+        "src/modules/auth/*"
+      ],
+      "@exam/*": [
+        "src/modules/exam/*"
       ]
     },
     "lib": [
