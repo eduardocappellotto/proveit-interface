@@ -11,6 +11,7 @@ Vue.use(Router);
 const router = new Router({
     mode: 'history',
     routes: [
+        { path: '/', redirect: '/login' },
         ...authRoutes,
         ...examRoutes
     ]
@@ -28,13 +29,13 @@ router.beforeEach(async (to, from, next) => {
     }
 
     if (requiresAuth && !store.state.auth.user) {
-        next('/login');
-    } else if (requiresAuth && !allowedRoles.includes(currentUserRole)) {
-        return
-    } else if (to.path === '/login' && store.state.auth.user) {
-        next('/');
-    } else {
+        next('/login')
 
+    } else if (requiresAuth && !allowedRoles.includes(currentUserRole)) {
+        store.dispatch('auth/logout')
+    } else if (to.path === '/login' && store.state.auth.user) {
+        next('/exam-list');
+    } else {
         next();
     }
 });
