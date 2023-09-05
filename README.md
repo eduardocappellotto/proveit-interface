@@ -62,6 +62,21 @@ O projeto é dividido em dois módulos principais:
 
 A modularização facilita o crescimento do projeto, permitindo a futura adição de módulos como 'curso', 'turma', entre outros.
 
+## 🌐 EXTRA: Monitoramento de Atividade do Usuário
+
+Em ambientes de avaliação online, um dos maiores desafios é garantir a integridade do processo avaliativo. Em particular, é crucial ter certeza de que os usuários não estão usando recursos externos ou tentando "colar" durante os exames.
+
+Para abordar essas preocupações e explorar as capacidades de monitoramento do navegador, desenvolvi uma Prova de Conceito (POC) que explora os limites do monitoramento da atividade do usuário em um ambiente de navegador, sempre respeitando o consentimento do usuário. Os principais recursos desta POC incluem:
+
+- Detecção de mudança de aba no navegador.
+- Reconhecimento do evento "FocusOut", que ocorre quando o navegador é minimizado ou perde foco.
+- Monitoramento da webcam e microfone do usuário para garantir que o ambiente de teste permaneça íntegro.
+- Registro detalhado de todas essas atividades.
+
+🔗 Você pode acessar e aprender mais sobre esta POC no repositório do GitHub: [visibility-poc](https://github.com/eduardocappellotto/visibility-poc).
+
+Dada a natureza do projeto Prove.it, esta POC é extremamente relevante. As técnicas e métodos explorados na POC podem ser incorporados ao Prove.it para melhorar a integridade das avaliações online.
+
 ## 📝 Observações
 
 - O sistema de rotas considera as `Roles` para acesso. Um usuário `ADMIN` tem visibilidade completa, enquanto um `ALUNO` possui visibilidade restrita.
