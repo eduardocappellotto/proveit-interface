@@ -15,7 +15,7 @@
                 <v-list-item v-if="isAdmin" to="/create-exam">
                     <v-list-item-content>
                         <v-list-item-title>
-                            Criar exame
+                            Criar Avaliação
                         </v-list-item-title>
                     </v-list-item-content>
                 </v-list-item>

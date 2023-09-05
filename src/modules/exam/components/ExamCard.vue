@@ -1,10 +1,12 @@
 <template>
-    <v-card class="mb-4">
-
+    <v-card class="ma-2 elevation-4">
         <v-card-title>{{ exam.title }}</v-card-title>
         <v-card-subtitle>{{ exam.questionCount }} questões</v-card-subtitle>
         <v-card-actions>
             <v-btn text @click="showDialog = true" color="primary">Resolução</v-btn>
+            <v-btn v-if="isAdmin" text @click="togglePublish" :color="exam.isPublished ? 'red' : 'green'">
+                {{ exam.isPublished ? 'Des-publicar' : 'Publicar' }}
+            </v-btn>
         </v-card-actions>
 
         <v-dialog v-model="showDialog" max-width="500">
@@ -21,11 +23,17 @@
             {{ errorMessage }}
             <v-btn text @click="showError = false">X</v-btn>
         </v-snackbar>
+        <v-snackbar v-model="showSuccess" :timeout="5000" color="success">
+            {{ successMessage }}
+            <v-btn text @click="showSuccess = false">X</v-btn>
+        </v-snackbar>
     </v-card>
 </template>
   
 <script>
+import { mapActions } from 'vuex'
 import ResolutionService from '@/services/resolutionService';
+import ExamService from '@/services/examService';
 
 export default {
     name: 'ExamCard',
@@ -40,9 +48,18 @@ export default {
             showDialog: false,
             showError: false,
             errorMessage: '',
+
+            showSuccess: false,
+            successMessage: '',
+        }
+    },
+    computed: {
+        isAdmin() {
+            return this.$store.state.auth.user.role === 'ADMIN';
         }
     },
     methods: {
+        ...mapActions('exam', ['fetchExams']),
         goToExam(resId) {
             this.$router.push(`/exam/${this.exam._id}/resolution/${resId}`)
         },
@@ -69,10 +86,27 @@ export default {
         showErrorMessage(message) {
             this.errorMessage = message;
             this.showError = true;
+        },
+        showSuccessMessage(message) {
+            this.successMessage = message;
+            this.showSuccess = true;
+        },
+        async togglePublish() {
+            try {
+                await ExamService.publishOrUnpublishExam(this.exam._id, !this.exam.isPublished);
+
+                if (!this.exam.isPublished) {
+                    this.showSuccessMessage("Avaliação publicada! Agora os alunos podem resolvê-la")
+                } else {
+                    this.showSuccessMessage("Avaliação des-publicada! Alunos não poderão resolvê-la mais!")
+                }
+                this.fetchExams()
+            } catch (error) {
+                this.showErrorMessage('Erro ao alterar o status da prova.');
+            }
         }
     }
 }
 </script>
   
 <style scoped></style>
-  

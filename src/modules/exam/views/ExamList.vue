@@ -1,8 +1,10 @@
 <template>
-    <v-container>
-        <div v-for="(exam, index) in exams" :key="index">
-            <ExamCard :exam="exam" />
-        </div>
+    <v-container fluid>
+        <v-row class="justify-center">
+            <v-col v-for="(exam, index) in exams" :key="index" cols="12" md="10" lg="8" :style="{ 'max-width': '480px' }">
+                <ExamCard :exam="exam" />
+            </v-col>
+        </v-row>
     </v-container>
 </template>
   
@@ -23,7 +25,10 @@ export default {
         ...mapState('auth', ['user'])
     },
     created() {
-        this.fetchExams(null)
+        let fetchPublished = this.user.role === 'ALUNO' ? true : null
+        // Fetches all exams when is an ADMIN user, fetches only published when its a ALUNO user.
+
+        this.fetchExams(fetchPublished)
     },
     methods: {
         ...mapActions('exam', ['fetchExams']),

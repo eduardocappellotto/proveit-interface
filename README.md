@@ -1,7 +1,3 @@
-Baseado nas informações fornecidas, aqui está um exemplo de README para o projeto do front-end:
-
----
-
 # Prove.it - Sistema Avaliativo - Front-end
 
 O front-end do projeto Prove.it foi desenvolvido utilizando Vue.js 2.6. A escolha desta versão foi uma necessidade, apesar das ressalvas sobre o uso do Vue 2 em novos projetos devido ao seu futuro suporte descontinuado e melhor integração do Vue 3 com TypeScript.
@@ -34,6 +30,30 @@ O front-end do projeto Prove.it foi desenvolvido utilizando Vue.js 2.6. A escolh
    npm run serve
    ```
 
+4. Faça o login na interface:
+
+Você terá 2 opções de login, o login ALUNO e o login ADMIN (professor). 
+
+É possível criar novos alunos á partir da API, mas não criei nenhuma interface no front-end para que isso fosse realizado (a administração do curso subiria um Excel de matrículas por exemplo e faria um inserção em massa)
+
+Segue abaixo os logins criados:
+
+Login Admin (professor)
+
+    ```
+    Matrícula: PROFESSOR,
+    Senha: SENHAPROFESSOR
+    (Role ADMIN)
+    ```
+
+Login Aluno (usuário)
+
+    ```
+    Matrícula: ALUNO2,
+    Senha: SENHAALUNO2
+    (Role ALUNO)
+    ```
+ 
 ## 📁 Estrutura do Projeto
 
 O projeto é dividido em dois módulos principais:
