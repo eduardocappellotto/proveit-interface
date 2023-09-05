@@ -16,18 +16,25 @@ const router = new Router({
     ]
 });
 
-router.beforeEach((to, from, next) => {
+router.beforeEach(async (to, from, next) => {
     const requiresAuth = to.matched.some(record => record.meta.requiresAuth);
     const allowedRoles = to.meta.allowedRoles;
-    const currentUserRole = store.state.user.user?.role;
+    let currentUserRole = store.state.auth.user?.role;
 
-    if (requiresAuth && !store.state.user.user) {
+    const lsToken = localStorage.getItem('authToken');
+    if (lsToken && !currentUserRole) {
+        await store.dispatch('auth/validateToken');
+        currentUserRole = store.state.auth.user?.role;
+    }
+
+    if (requiresAuth && !store.state.auth.user) {
         next('/login');
     } else if (requiresAuth && !allowedRoles.includes(currentUserRole)) {
-        next('/unauthorized'); // Redirect to an unauthorized page or dashboard, as appropriate
-    } else if (to.path === '/login' && store.state.user.user) {
+        return
+    } else if (to.path === '/login' && store.state.auth.user) {
         next('/');
     } else {
+
         next();
     }
 });

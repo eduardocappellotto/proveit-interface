@@ -5,6 +5,7 @@ let authRoutes = [
     {
         path: '/login',
         name: 'Login',
+        meta: { headerText: 'Sistema de Avaliações' },
         component: LoginView
     },
     {

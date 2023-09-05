@@ -1,11 +1,15 @@
-import { login } from '@/services/authService';
-import { register } from '@/services/userService';
+import AuthService from '@/services/authService';
+import UserService from '@/services/userService';
+import router from '@/routes'
+
+const lsToken = localStorage.getItem('authToken');
 
 const state = {
     user: null,
-    token: null,
-    isAuthenticated: false
-};
+    token: lsToken || null,
+    isAuthenticated: Boolean(lsToken)
+
+}
 
 const mutations = {
     SET_USER(state, payload) {
@@ -19,27 +23,52 @@ const mutations = {
         state.user = null;
         state.token = null;
         state.isAuthenticated = false;
-    }
+    },
+
 };
 
 const actions = {
     async login({ commit }, credentials) {
         try {
-            const { token } = await login(credentials);
-            // Assuming the user details are returned in the token or fetched separately
-            commit('SET_USER', { registration: credentials.registration }); // Update accordingly
+            const { token, role, userId } = await AuthService.login(credentials);
+
+            const newUser = {
+                registration: credentials.registration,
+                role,
+                id: userId
+            }
+
+            localStorage.setItem('authToken', token);
+
+            commit('SET_USER', newUser);
             commit('SET_TOKEN', token);
+            return token
         } catch (error) {
             console.error('Login Error:', error.message);
             throw error;
         }
     },
+    async validateToken({ commit }) {
+
+        if (state.token) {
+            try {
+                const userData = await AuthService.validateToken(state.token);
+                commit('SET_USER', userData);
+            } catch (error) {
+                console.error('Token validation failed:', error.message);
+                localStorage.removeItem('authToken');
+                commit('CLEAR_USER');
+            }
+        }
+    },
     logout({ commit }) {
+        localStorage.removeItem('authToken'); // Remover o token do localStorage
         commit('CLEAR_USER');
+        router.push('/login')
     },
     async register({ commit }, userData) {
         try {
-            const user = await register(userData);
+            const user = await UserService.register(userData);
             commit('SET_USER', user);
         } catch (error) {
             console.error('Registration Error:', error.message);

@@ -4,10 +4,21 @@ class AuthService {
 
     constructor() { }
 
-    async login(registration, password) {
+    async login(credentials) {
         try {
-            const response = await api.post('/auth/login', { registration, password });
-            return response.data;
+            const { data } = await api.post('/auth/login', credentials);
+
+            return data;
+        } catch (error) {
+            console.error("Error during login:", error);
+            throw error;
+        }
+    }
+
+    async validateToken(token) {
+        try {
+            const { data } = await api.post('/auth/validate', { token: token });
+            return data;
         } catch (error) {
             console.error("Error during login:", error);
             throw error;

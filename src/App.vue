@@ -1,28 +1,39 @@
 <template>
-  <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
-  </div>
+  <v-app>
+    <DrawerNavigation />
+    <v-app-bar app>
+      <v-app-bar-nav-icon @click="updateDrawer"></v-app-bar-nav-icon>
+
+      <v-app-bar-title>
+        {{ $route.meta.headerText }}
+      </v-app-bar-title>
+    </v-app-bar>
+    <v-main>
+      <v-container fluid>
+        <router-view></router-view>
+      </v-container>
+    </v-main>
+  </v-app>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
-
+import DrawerNavigation from '@/components/DrawerNavigation.vue';
+import { mapActions } from 'vuex'
 export default {
   name: 'App',
   components: {
-    HelloWorld
-  }
-}
-</script>
+    DrawerNavigation
+  },
 
+  data: () => ({
+  }),
+  methods: {
+    ...mapActions(['updateDrawer'])
+  }
+};
+</script>
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+.v-app-bar-title__content {
+  text-overflow: clip;
 }
 </style>

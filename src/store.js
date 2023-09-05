@@ -1,13 +1,29 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
-import user from './modules/auth/store';
-import exam from './modules/exam/store';
+import auth from './modules/auth/store.js';
+import exam from './modules/exam/store.js';
 
-Vue.use(Vuex);
+Vue.use(Vuex)
 
-export default new Vuex.Store({
+const store = new Vuex.Store({
+    state: {
+        drawer: false
+    },
+    mutations: {
+        SET_USER(state) {
+            state.drawer = !state.drawer
+        }
+    },
+    actions: {
+        updateDrawer({ commit }) {
+            commit('SET_USER');
+        }
+    },
+
     modules: {
-        user,
+        auth,
         exam
     }
 });
+
+export default store;

@@ -12,7 +12,7 @@
 </template>
   
 <script>
-import AuthService from '@/services/authService';
+import { mapActions } from 'vuex';
 
 export default {
     data() {
@@ -24,18 +24,27 @@ export default {
         };
     },
     methods: {
+        ...mapActions('auth', {
+            login: 'login',
+        }
+        ), // Note how we're mapping actions here
+
         async loginUser() {
             if (this.$refs.form.validate()) {
                 try {
-                    const response = await AuthService.login(this.registration, this.password);
-                    // Here you can store the token wherever you prefer (e.g., Vuex store, cookies, etc.)
-                    this.$emit('login-success', response.token);  // Notify parent component of successful login
+                    const credentials = {
+                        registration: this.registration,
+                        password: this.password
+                    };
+                    await this.login(credentials); // Directly call the mapped action
+                    this.$emit('login-success');
                 } catch (error) {
-                    this.errorMessage = "Error logging in. Please try again.";
+                    this.errorMessage = error.message;  // Adjust this to get a more user-friendly message
                 }
             }
         }
     }
 };
 </script>
+
   
