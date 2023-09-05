@@ -1,6 +1,10 @@
 # Prove.it - Sistema Avaliativo - Front-end
 
-O front-end do projeto Prove.it foi desenvolvido utilizando Vue.js 2.6. A escolha desta versão atendeu a uma necessidade específica, apesar das ressalvas quanto ao uso do Vue 2 em novos projetos devido ao seu futuro suporte limitado e à melhor integração do Vue 3 com TypeScript.
+O front-end do projeto Prove.it foi desenvolvido utilizando Vue.js 2.6. A escolha desta versão atendeu a uma necessidade específica, apesar das ressalvas quanto ao uso do Vue 2 em novos projetos devido ao seu futuro suporte limitado e à melhor integração do Vue 3 com TypeScript. 
+
+Aqui há o link para o front-end hospedado na Netlify: https://demarco-avaliacao.netlify.app/login 
+
+O front está conectado ao back-end na Railway dockerizado em https://proveit-server-production.up.railway.app/
 
 ## 🚀 Tecnologias e ferramentas utilizadas
 
